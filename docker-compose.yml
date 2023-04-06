@@ -1,0 +1,19 @@
+version: '3'
+
+services:
+  node:
+    image: parity/substrate
+    command: --dev --ws-external --rpc-cors=all --rpc-methods=Unsafe
+    ports:
+      - "9944:9944"
+      - "9933:9933"
+      - "30333:30333"
+    volumes:
+      - ./data:/data
+
+  explorer:
+    image: jacogr/polkadot-js-apps
+    ports:
+      - "3000:80"
+    environment:
+      - WS_URL=ws://node:9944
