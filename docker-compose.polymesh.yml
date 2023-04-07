@@ -1,0 +1,21 @@
+version: '3'
+
+services:
+  polymesh:
+    image: polymeshassociation/polymesh:latest-develop-debian
+    restart: always
+    ports:
+      - "30333:30333"
+      - "9944:9944"
+      - "9933:9933"
+    volumes:
+      - ./datapolymesh:/data/polymesh
+    # command: --chain polymesh --validator --name "your-node-name" --pruning=archive
+    command: --dev --rpc-cors all --unsafe-ws-external --name "fsl-polymesh"
+
+  explorer:
+    image: jacogr/polkadot-js-apps
+    ports:
+      - "3000:80"
+    environment:
+      - WS_URL=ws://polymesh:9944
